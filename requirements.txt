@@ -1,4 +1,4 @@
-pywin32;sys_platform == 'win32' 
+fitz
 groq
 langchain-groq
 aiofiles==23.2.1
