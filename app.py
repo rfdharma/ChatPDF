@@ -26,6 +26,7 @@ from langchain.prompts import (
     MessagesPlaceholder,
     SystemMessagePromptTemplate,
 )
+from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain.memory import ConversationBufferMemory
 from langchain.output_parsers.json import SimpleJsonOutputParser
 from langchain.llms import OpenAI
@@ -100,7 +101,8 @@ def configure_retriever(uploaded_files):
     splits = text_splitter.split_documents(docs)
 
     # Create embeddings and store in vectordb
-    embeddings = OpenAIEmbeddings(openai_api_key="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")
+    embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/paraphrase-multilingual-mpnet-base-v2")
+    # embeddings = OpenAIEmbeddings(openai_api_key="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")
     vectordb = DocArrayInMemorySearch.from_documents(splits, embeddings)
 
     # Define retriever
@@ -135,8 +137,8 @@ if prompt := st.chat_input():
         stream_handler = StreamHandler(st.empty())
         chat_model = ChatGroq(temperature=0,
                       model_name="mixtral-8x7b-32768",
-                      api_key='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',streaming=True, callbacks=[stream_handler])
-        # chat_model = ChatOpenAI(openai_api_key="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", streaming=True, callbacks=[stream_handler])
+                      api_key=st.secrets['GROQ_API_KEY'],streaming=True, callbacks=[stream_handler])
+        # chat_model = ChatOpenAI(openai_api_key=st.secrets['OPEN_API_KEY'], streaming=True, callbacks=[stream_handler])
         json_parser = SimpleJsonOutputParser()
         chain = prompt_formatted | chat_model | json_parser
         response = chain.invoke({"context": contexts_formatter(contexts), "question": st.session_state.messages, "chat_history": memory.buffer_as_messages})
