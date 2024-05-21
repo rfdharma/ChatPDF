@@ -40,7 +40,6 @@ import tiktoken
 encoder = tiktoken.encoding_for_model("text-embedding-ada-002")
 from langchain.callbacks.manager import get_openai_callback
 
-
 # ======================================
 # Prompt
 # ======================================
