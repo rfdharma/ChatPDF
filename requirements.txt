@@ -1,4 +1,4 @@
-pypiwin32
+pywin32;sys_platform == 'win32' 
 groq
 langchain-groq
 aiofiles==23.2.1
