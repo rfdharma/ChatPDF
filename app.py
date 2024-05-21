@@ -102,7 +102,7 @@ def configure_retriever(uploaded_files):
 
     # Create embeddings and store in vectordb
     embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/paraphrase-multilingual-mpnet-base-v2")
-    # embeddings = OpenAIEmbeddings(openai_api_key="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")
+    # embeddings = OpenAIEmbeddings(openai_api_key=st.secrets['OPEN_API_KEY'])
     vectordb = DocArrayInMemorySearch.from_documents(splits, embeddings)
 
     # Define retriever
